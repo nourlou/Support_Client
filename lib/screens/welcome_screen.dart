@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:support_client/screens/login_screen.dart';
 import '../core/app_theme.dart';
 import '../widgets/auth_logo.dart';
 import '../widgets/primary_button.dart';
@@ -74,12 +75,15 @@ class WelcomeScreen extends StatelessWidget {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      PrimaryButton(
-                        label: 'Se connecter',
-                        onPressed: () {
-                          // TODO: naviguer vers la page Connexion
-                        },
-                      ),
+                    PrimaryButton(
+                      label: 'Se connecter',
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (_) => const LoginScreen()),
+                        );
+                      },
+                    ),
                       const SizedBox(height: 12),
                       PrimaryButton(
                         label: 'Créer un compte',
