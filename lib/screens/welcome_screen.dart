@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:support_client/screens/login_screen.dart';
+import 'package:support_client/screens/register_screen.dart';
 import '../core/app_theme.dart';
 import '../widgets/auth_logo.dart';
 import '../widgets/primary_button.dart';
@@ -89,8 +90,11 @@ class WelcomeScreen extends StatelessWidget {
                         label: 'Créer un compte',
                         outlined: true,
                         onPressed: () {
-                          // TODO: naviguer vers la page Créer un compte
-                        },
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (_) => const RegisterScreen()),
+                        );
+                      },
                       ),
                     ],
                   ),
