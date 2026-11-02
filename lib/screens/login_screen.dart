@@ -35,7 +35,7 @@ class _LoginScreenState extends State<LoginScreen> {
     if (!_formKey.currentState!.validate()) return;
 
     setState(() => _loading = true);
-    await Future.delayed(const Duration(seconds: 1)); // TODO: appel API (login)
+    await Future.delayed(const Duration(seconds: 1));
     if (!mounted) return;
     setState(() => _loading = false);
 
@@ -48,101 +48,124 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: AuthBackground(
-        child: Center(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                children: [
-                  const AuthLogo(size: 64),
-                  const SizedBox(height: 16),
-                  const Text(
-                    'Connexion',
-                    style: TextStyle(
-                      fontSize: 28,
-                      fontWeight: FontWeight.w800,
-                      color: AppColors.dark,
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                  const Text(
-                    'Connectez-vous à votre compte',
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w700,
-                      color: AppColors.dark,
-                    ),
-                  ),
-                  const SizedBox(height: 40),
-
-                  // E-mail
-                  CustomTextField(
-                    controller: _emailCtrl,
-                    hint: 'E-mail',
-                    icon: Icons.mail_outline,
-                    keyboardType: TextInputType.emailAddress,
-                    textInputAction: TextInputAction.next,
-                    validator: Validators.email,
-                  ),
-                  const SizedBox(height: 16),
-
-                  // Mot de passe
-                  CustomTextField(
-                    controller: _passCtrl,
-                    hint: 'Mot de passe',
-                    icon: Icons.lock_outline,
-                    isPassword: true,
-                    validator: Validators.password,
-                  ),
-                  const SizedBox(height: 12),
-
-                  // Se souvenir de moi + Mot de passe oublié
-                  Row(
-                    children: [
-                      SizedBox(
-                        width: 24,
-                        height: 24,
-                        child: Checkbox(
-                          value: _remember,
-                          activeColor: AppColors.primary,
-                          onChanged: (v) => setState(() => _remember = v ?? false),
-                        ),
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.fromLTRB(24, 12, 24, 24),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                // Bouton retour (comme dans ForgotPasswordScreen)
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Material(
+                    color: Colors.white,
+                    shape: const CircleBorder(),
+                    elevation: 2,
+                    shadowColor: AppColors.primary.withOpacity(0.25),
+                    child: InkWell(
+                      customBorder: const CircleBorder(),
+                      onTap: () => Navigator.of(context).maybePop(),
+                      child: const SizedBox(
+                        width: 38,
+                        height: 38,
+                        child: Icon(Icons.chevron_left,
+                            color: AppColors.primary, size: 22),
                       ),
-                      const SizedBox(width: 8),
-                      const Text('Se souvenir de moi',
-                          style: TextStyle(fontSize: 12)),
-                      const Spacer(),
-                      GestureDetector(
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 40),
+
+                const AuthLogo(size: 64),
+                const SizedBox(height: 16),
+                const Text(
+                  'Connexion',
+                  style: TextStyle(
+                    fontSize: 28,
+                    fontWeight: FontWeight.w800,
+                    color: AppColors.dark,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                const Text(
+                  'Connectez-vous à votre compte',
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.dark,
+                  ),
+                ),
+                const SizedBox(height: 40),
+
+                // E-mail
+                CustomTextField(
+                  controller: _emailCtrl,
+                  hint: 'E-mail',
+                  icon: Icons.mail_outline,
+                  keyboardType: TextInputType.emailAddress,
+                  textInputAction: TextInputAction.next,
+                  validator: Validators.email,
+                ),
+                const SizedBox(height: 16),
+
+                // Mot de passe
+                CustomTextField(
+                  controller: _passCtrl,
+                  hint: 'Mot de passe',
+                  icon: Icons.lock_outline,
+                  isPassword: true,
+                  validator: Validators.password,
+                ),
+                const SizedBox(height: 12),
+
+                // Se souvenir de moi + Mot de passe oublié
+                Row(
+                  children: [
+                    SizedBox(
+                      width: 24,
+                      height: 24,
+                      child: Checkbox(
+                        value: _remember,
+                        activeColor: AppColors.primary,
+                        onChanged: (v) =>
+                            setState(() => _remember = v ?? false),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    const Text('Se souvenir de moi',
+                        style: TextStyle(fontSize: 12)),
+                    const Spacer(),
+                    GestureDetector(
                       onTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(builder: (_) => const ForgotPasswordScreen()),
-                      );
-                    },
-                        child: const Text(
-                          'Mot de passe oublié ?',
-                          style: TextStyle(
-                            fontSize: 11,
-                            fontWeight: FontWeight.w700,
-                            color: AppColors.primary,
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (_) => const ForgotPasswordScreen(),
                           ),
+                        );
+                      },
+                      child: const Text(
+                        'Mot de passe oublié ?',
+                        style: TextStyle(
+                          fontSize: 11,
+                          fontWeight: FontWeight.w700,
+                          color: AppColors.primary,
                         ),
                       ),
-                    ],
-                  ),
-                  const SizedBox(height: 24),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 24),
 
-                  PrimaryButton(
-                    label: 'Se connecter',
-                    isLoading: _loading,
-                    onPressed: _submit,
-                  ),
-                  const SizedBox(height: 20),
-                  const OrDivider(),
-                  const SizedBox(height: 20),
-                  const GoogleButton(),
-                ],
-              ),
+                PrimaryButton(
+                  label: 'Se connecter',
+                  isLoading: _loading,
+                  onPressed: _submit,
+                ),
+                const SizedBox(height: 20),
+                const OrDivider(),
+                const SizedBox(height: 20),
+                const GoogleButton(),
+              ],
             ),
           ),
         ),
