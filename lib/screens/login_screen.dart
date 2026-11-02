@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:support_client/screens/forgot_password_screen.dart';
 import '../core/app_theme.dart';
 import '../core/validators.dart';
 import '../widgets/auth_background.dart';
@@ -113,9 +114,11 @@ class _LoginScreenState extends State<LoginScreen> {
                           style: TextStyle(fontSize: 12)),
                       const Spacer(),
                       GestureDetector(
-                        onTap: () {
-                          // TODO: naviguer vers la page Mot de passe oublié
-                        },
+                      onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(builder: (_) => const ForgotPasswordScreen()),
+                      );
+                    },
                         child: const Text(
                           'Mot de passe oublié ?',
                           style: TextStyle(

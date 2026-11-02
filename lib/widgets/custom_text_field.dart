@@ -4,7 +4,7 @@ import '../core/app_theme.dart';
 class CustomTextField extends StatefulWidget {
   final TextEditingController controller;
   final String hint;
-  final IconData icon;
+  final IconData? icon;
   final bool isPassword;
   final TextInputType? keyboardType;
   final TextInputAction? textInputAction;
@@ -14,7 +14,7 @@ class CustomTextField extends StatefulWidget {
     super.key,
     required this.controller,
     required this.hint,
-    required this.icon,
+    this.icon,
     this.isPassword = false,
     this.keyboardType,
     this.textInputAction,
@@ -56,7 +56,9 @@ class _CustomTextFieldState extends State<CustomTextField> {
         decoration: InputDecoration(
           hintText: widget.hint,
           hintStyle: const TextStyle(color: AppColors.grey, fontSize: 13),
-          prefixIcon: Icon(widget.icon, color: AppColors.grey, size: 20),
+          prefixIcon: widget.icon != null
+    ? Icon(widget.icon, color: AppColors.grey, size: 20)
+    : null,
           suffixIcon: widget.isPassword
               ? IconButton(
                   icon: Icon(
@@ -71,7 +73,10 @@ class _CustomTextFieldState extends State<CustomTextField> {
               : null,
           filled: true,
           fillColor: Colors.white,
-          contentPadding: const EdgeInsets.symmetric(vertical: 16),
+          contentPadding: EdgeInsets.symmetric(
+          vertical: 16,
+          horizontal: widget.icon == null ? 16 : 0,
+        ),
           enabledBorder: _border(AppColors.border),
           focusedBorder: _border(AppColors.primary),
           errorBorder: _border(Colors.red),
